@@ -1,5 +1,5 @@
 
-import { ArrowRight, BarChart, Cloud, Database } from "lucide-react";
+import { ArrowRight, BarChart, Cloud, Database, Smartphone, Tablet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -34,7 +34,7 @@ export default function Index() {
       <section className="py-24">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">Nossas Soluções</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
               <Cloud className="h-12 w-12 text-primary mb-4" />
               <h3 className="text-xl font-semibold mb-2">Cloud Software</h3>
@@ -54,6 +54,16 @@ export default function Index() {
               <h3 className="text-xl font-semibold mb-2">Análise de Negócios</h3>
               <p className="text-muted-foreground">
                 Insights poderosos para tomada de decisões estratégicas.
+              </p>
+            </div>
+            <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
+              <div className="flex items-center mb-4">
+                <Smartphone className="h-8 w-8 text-primary mr-2" />
+                <Tablet className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Desenvolvimento Mobile</h3>
+              <p className="text-muted-foreground">
+                Aplicativos nativos para Android e iOS com tecnologia moderna.
               </p>
             </div>
           </div>
