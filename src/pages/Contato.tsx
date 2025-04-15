@@ -5,11 +5,51 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useState } from "react";
+import { toast } from "@/components/ui/sonner";
 
 export default function Contato() {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica de envio do formulário
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('YOUR_API_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha ao enviar mensagem');
+      }
+
+      toast.success("Mensagem enviada com sucesso!");
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    } catch (error) {
+      toast.error("Erro ao enviar mensagem. Tente novamente.");
+      console.error('Erro:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -25,18 +65,50 @@ export default function Contato() {
                 <h1 className="text-3xl font-bold mb-6">Entre em Contato</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <Input placeholder="Nome completo" />
+                    <Input 
+                      name="name"
+                      placeholder="Nome completo"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
                   <div>
-                    <Input type="email" placeholder="E-mail" />
+                    <Input 
+                      name="email"
+                      type="email"
+                      placeholder="E-mail"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
                   <div>
-                    <Input placeholder="Telefone" />
+                    <Input 
+                      name="phone"
+                      placeholder="Telefone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
                   <div>
-                    <Textarea placeholder="Mensagem" className="min-h-[120px]" />
+                    <Textarea 
+                      name="message"
+                      placeholder="Mensagem"
+                      className="min-h-[120px]"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                    />
                   </div>
-                  <Button type="submit" className="w-full">Enviar mensagem</Button>
+                  <Button 
+                    type="submit" 
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
+                  </Button>
                 </form>
               </div>
 
